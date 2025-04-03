@@ -1,4 +1,4 @@
-package com.malisoft.nutrition
+package com.phattarapong.nutrition
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

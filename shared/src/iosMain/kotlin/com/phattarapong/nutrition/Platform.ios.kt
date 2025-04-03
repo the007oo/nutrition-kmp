@@ -1,4 +1,4 @@
-package com.malisoft.nutrition
+package com.phattarapong.nutrition
 
 import platform.UIKit.UIDevice
 

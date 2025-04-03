@@ -1,4 +1,4 @@
-package com.malisoft.nutrition
+package com.phattarapong.nutrition
 
 interface Platform {
     val name: String

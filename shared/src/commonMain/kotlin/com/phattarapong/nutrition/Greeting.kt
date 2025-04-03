@@ -1,4 +1,4 @@
-package com.malisoft.nutrition
+package com.phattarapong.nutrition
 
 class Greeting {
     private val platform = getPlatform()

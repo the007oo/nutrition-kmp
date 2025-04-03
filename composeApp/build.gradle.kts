@@ -5,26 +5,15 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
     
@@ -37,53 +26,23 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material3)
             implementation(compose.material)
             implementation(compose.ui)
-            implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-//            implementation(libs.androidx.navigation.compose) // TODO Fix the version
-
-            // Coil
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
-
-            // Kermit for logging
-            implementation(libs.kermit)
-
-            // Kotlin
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.datetime)
-
-            // Koin
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-        }
-
-        // Adds common test dependencies
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-//            implementation(libs.kotlin.test.junit)
-
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+            implementation(projects.shared)
         }
     }
 }
 
 android {
-    namespace = "com.malisoft.nutrition"
+    namespace = "com.phattarapong.nutrition"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
     defaultConfig {
-        applicationId = "com.malisoft.nutrition"
+        applicationId = "com.phattarapong.nutrition"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -100,14 +59,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose = true
-    }
-    dependencies {
-        debugImplementation(compose.uiTooling)
-    }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
 
